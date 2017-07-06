@@ -1,0 +1,14 @@
+name: xpaas.common
+description: "Common modules for Red Hat xPaaS images."
+version: "2.0"
+release: "dev"
+modules:
+    included:
+        - name: xpaas.common.jolokia
+          # location is relative to self, i.e. the location of this module/image.yaml
+          path: jolokia
+        - name: xpaas.common.hawkular
+          path: hawkular
+        - name: xpaas.common.java
+          path: java
+
