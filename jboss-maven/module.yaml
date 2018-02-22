@@ -79,7 +79,5 @@ envs:
 execute:
 - script: configure.sh
 packages:
-  repositories:
-      - jboss-rhscl
   install:
       - rh-maven35
