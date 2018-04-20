@@ -1,0 +1,11 @@
+
+# DEPRECATED: provided for backward compatibility
+
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+source "$JBOSS_CONTAINER_S2I_CORE_MODULE"/s2i-core
+
+log_warning "s2i-setup script has been deprecated and will be removed in a future release."
+
+s2i_core_init
+
+DEPLOYMENTS_DIR="${S2I_TARGET_DEPLOYMENTS_DIR}"

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Command line arguments given to this script
+args="$*"
+
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+
+if [ "${SCRIPT_DEBUG}" = "true" ] ; then
+    set -x
+    log_info "Script debugging is enabled, allowing bash commands and their arguments to be printed as they are executed"
+fi
+
+source "${JBOSS_CONTAINER_MAVEN_S2I_MODULE}/maven-s2i"
+
+# Global S2I variable setup
+maven_s2i_init
+
+# TODO: migrate to JAVA_OPTS
+# Always include jolokia-opts, which can be empty if switched off via env
+export JAVA_OPTIONS="${JAVA_OPTIONS:+${JAVA_OPTIONS} }$(${JBOSS_CONTAINER_JOLOKIA_MODULE}/jolokia-opts) $(source ${JBOSS_CONTAINER_HAWKULAR_MODULE}/hawkular-opts && get_hawkular_opts)"
+
+if [ -f "${S2I_TARGET_DEPLOYMENTS_DIR}/bin/run.sh" ]; then
+    echo "Starting the application using the bundled ${S2I_TARGET_DEPLOYMENTS_DIR}/bin/run.sh ..."
+    exec ${DEPLOYMENTS_DIR}/bin/run.sh $args ${JAVA_ARGS}
+else
+    echo "Starting the Java application using ${JBOSS_CONTAINER_JAVA_RUN_MODULE}/run-java.sh $args..."
+    exec "${JBOSS_CONTAINER_JAVA_RUN_MODULE}/run-java.sh" $args ${JAVA_ARGS}
+fi

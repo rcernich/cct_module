@@ -1,0 +1,146 @@
+
+# include dependencies
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+source "${JBOSS_CONTAINER_S2I_CORE_MODULE}/s2i-core"
+
+function maven_s2i_init() {
+  # core environment
+  s2i_core_init
+
+  # initialize maven s2i environment variables
+  MAVEN_S2I_ARTIFACT_DIRS="${MAVEN_S2I_ARTIFACT_DIRS:-${ARTIFACT_DIR:-target}}"
+  MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES=jar
+  MAVEN_S2I_GOALS=${MAVEN_S2I_GOALS:-package}
+
+  # Internal variables:
+  # Location of Maven settings.xml file to use.
+  _MAVEN_S2I_SETTINGS_XML="${S2I_ARTIFACTS_DIR}/configuration/settings.xml"
+
+  # Location of archived local Maven repository.  Used with incremental builds.
+  _MAVEN_S2I_ARCHIVED_REPO="${S2I_ARTIFACTS_DIR}/m2"
+}
+
+
+function maven_s2i_build() {
+  maven_s2i_init
+  if [ -f "${S2I_SOURCE_DIR}/pom.xml" ]; then
+    # maven build
+    maven_s2i_maven_build
+  else
+    # binary build
+    maven_s2i_binary_build
+  fi
+  s2i_core_copy_artifacts
+
+  # Remove java tmp perf data dir owned by 185
+  rm -rf /tmp/hsperfdata_jboss
+}
+
+function maven_s2i_maven_build() { 
+  maven_s2i_maven_init
+  maven_build "${S2I_SOURCE_DIR}" "${MAVEN_S2I_GOALS}"
+  maven_s2i_deploy_artifacts "${S2I_SOURCE_DIR}" "${MAVEN_S2I_ARTIFACT_DIRS}" "${MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES}"
+  maven_cleanup
+}
+
+function maven_s2i_maven_init() {
+  # include maven scripts
+  source "${JBOSS_CONTAINER_MAVEN_DEFAULT_MODULE}"/scl-enable-maven
+  source "${JBOSS_CONTAINER_MAVEN_DEFAULT_MODULE}"/maven.sh
+
+  # Overrides for use with maven s2i
+  source "${JBOSS_CONTAINER_MAVEN_S2I_MODULE}"/maven-overrides
+
+  # let users override anything if they need to
+  maven_s2i_source_maven_overrides
+
+  # initialize the maven environment
+  maven_init
+}
+
+function maven_s2i_source_overrides() {
+  # extensions can use this to override functions provided by this module
+  # For example:
+  # source custom-maven.sh
+  : #noop
+}
+
+function maven_s2i_deploy_artifacts() {
+  if [ -n "$(type -t $maven_s2i_deploy_artifacts_override)" ]; then
+    eval ${maven_s2i_deploy_artifacts_override} $*
+    return $?
+  fi
+
+  local source_dir=$1
+  local artifact_dirs=$2
+  shift
+  shift
+  local types=$@
+
+  if [[ ! "${source_dir}" =~ ^\/ ]]; then
+    log_error "$FUNCNAME: Absolute path required for source directory \"$source_dir\"!"
+    exit 1
+  fi
+
+  IFS=',' read -a artifact_dirs <<< "${artifact_dirs}"
+  for artifact_dir in "${artifact_dirs[@]}"
+  do
+      if [[ "${artifact_dir}" =~ ^\/ ]]; then
+        log_warning "Absolute path found in MAVEN_S2I_ARTIFACT_DIRS: ${artifact_dir}"
+        maven_s2i_deploy_artifacts_from_dir "${artifact_dir}" $types
+      else
+        maven_s2i_deploy_artifacts_from_dir "${source_dir}/${artifact_dir}" $types
+      fi
+  done
+}
+
+function maven_s2i_deploy_artifacts_from_dir() {
+  local source_dir=$1
+  shift
+  local types=$@
+  
+  if [[ ! "${source_dir}" =~ ^\/ ]]; then
+    log_error "${FUNCNAME}: Absolute path required for source directory \"${source_dir}\"!"
+    return 1
+  elif [ ! -d "${source_dir}" ]; then
+    log_warning "${FUNCNAME}: Specified source directory \"${source_dir}\" does not exist.  No artifacts copied."
+    return 0
+  fi
+
+  for type in $types
+  do
+    log_info "Copying all *.${type} artifacts from ${source_dir} into ${S2I_TARGET_DEPLOYMENTS_DIR} for later deployment..."
+    cp -fv "${source_dir}/"*.${type} "${S2I_TARGET_DEPLOYMENTS_DIR}" 2> /dev/null
+  done
+}
+
+function maven_s2i_binary_build() {
+  log_info "S2I source build with plain binaries detected"
+  if [ x"${MAVEN_S2I_ARTIFACT_DIRS}" == x ]; then
+    if [ ! -d "${S2I_SOURCE_DIR}/${S2I_SOURCE_DEPLOYMENTS_DIR}" ]; then
+      maven_s2i_custom_binary_build
+    fi
+  else
+    maven_s2i_deploy_artifacts "${S2I_SOURCE_DIR}" "${MAVEN_S2I_ARTIFACT_DIRS}" "${MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES}"
+  fi
+}
+
+function maven_s2i_custom_binary_build() {
+  # if no ./deployments folder and no artifact dirs to copy form, then copy from root source directory
+  # XXX: blindly copy everything or use maven artifacts copy method?
+  rsync -l --out-format='%n' "${S2I_SOURCE_DIR}"/ "${S2I_TARGET_DEPLOYMENTS_DIR}"
+}
+
+function maven_s2i_copy_extras() {
+  maven_s2i_copy_configuration
+  maven_s2i_copy_data
+  maven_s2i_copy_deployments 
+}
+
+function maven_s2i_save_artifacts() {
+  if [ -d "${S2I_ARTIFACTS_DIR}" ]; then
+     pushd "${S2I_ARTIFACTS_DIR}" &> /dev/null
+     tar chf - *
+     popd &> /dev/null
+  fi
+}
