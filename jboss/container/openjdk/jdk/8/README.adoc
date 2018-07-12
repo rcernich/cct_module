@@ -6,7 +6,7 @@
 
 
 
-= link:./module.yaml[jboss.container.openjdk.8.jdk]
+= link:./module.yaml[jboss.container.openjdk.jdk]
 :toc:
 :toc-placement!:
 :toclevels: 5
@@ -53,10 +53,7 @@ The following RPMs will be installed by this module:
 * java-1.8.0-openjdk-devel
 
 === RPM Package Repositories
-
-Installed RPMs will be sourced from the following package repositories:
-    
-* jboss-os
+No additional RPM package repositories are required to install listed RPMs.
 
 == Modules
 
@@ -64,7 +61,7 @@ Installed RPMs will be sourced from the following package repositories:
 
 The following modules will be installed with this module:
 
-link:../../../../../jboss/container/openjdk/base/README.adoc[jboss.container.openjdk.base]
+link:../../../../jboss/container/openjdk/base/README.adoc[jboss.container.openjdk.base]
 
 === Module Repositories
 No module repositories defined.

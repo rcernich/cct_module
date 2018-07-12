@@ -28,11 +28,12 @@ The following environment variables are used to configure the functionality prov
 |MAVEN_ARGS |Arguments to use when calling Maven, replacing the default `package hawt-app:build -DskipTests -e`. Please be sure to run the `hawt-app:build` goal (when not already bound to the `package` execution phase), otherwise the startup scripts won't work. |-e -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga package
 |MAVEN_ARGS_APPEND |Additional Maven arguments. |-X -am -pl
 |MAVEN_CLEAR_REPO |If set then the Maven repository is removed after the artifact is built. This is useful for keeping the created application image small, but prevents *incremental* builds. Defaults to *false*. |
+|MAVEN_LOCAL_REPO |Directory to use as the local Maven repository. |/home/jboss/.m2/repository
 |MAVEN_MIRROR_URL |The base URL of a mirror used for retrieving artifacts. |http://10.0.0.1:8080/repository/internal/
 |MAVEN_REPO_HOST |Maven repository host (if not using fully defined url; will fallback to service) |repo.example.com
 |MAVEN_REPO_ID |Maven repository id |my-repo
 |MAVEN_REPO_LAYOUT |Maven repository layout |default
-|MAVEN_REPO_LOCAL |Directory to use as the local Maven repository. |/home/jboss/.m2
+|MAVEN_REPO_LOCAL |^ **DEPRECATED, use MAVEN_LOCAL_REPO** Directory to use as the local Maven repository. |/home/jboss/.m2
 |MAVEN_REPO_PASSPHRASE |Maven repository passphrase |maven1!
 |MAVEN_REPO_PASSWORD |Maven repository password |maven1!
 |MAVEN_REPO_PATH |Maven repository path (if not using fully defined url; will fallback to service) |/maven2/
