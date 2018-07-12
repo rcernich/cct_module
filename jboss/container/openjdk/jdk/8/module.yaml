@@ -1,8 +1,8 @@
 schema_version: 1
 
-name: "jboss.container.openjdk.8.jdk"
+name: "jboss.container.openjdk.jdk"
 description: "Installs the JDK for OpenJDK 8."
-version: "1.0"
+version: "8"
 
 labels:
 - name: "org.jboss.container.product"

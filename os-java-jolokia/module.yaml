@@ -4,9 +4,6 @@ name: os-java-jolokia
 version: '1.0'
 description: Legacy os-java-jolokia script package.
 
-execute:
-- script: install_as_root
-
 modules:
   install:
   - name: jboss.container.jolokia.bash

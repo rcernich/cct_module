@@ -156,7 +156,7 @@ Feature: Openshift AMQ tests
 
   Scenario: Check if jolokia is configured correctly
     When container is ready
-    Then container log should contain -javaagent:/opt/jolokia/jolokia.jar=config=/opt/jolokia/etc/jolokia.properties
+    Then container log should contain -javaagent:/opt/jboss/container/jolokia/jolokia.jar=config=/opt/jboss/container/jolokia/etc/jolokia.properties
 
   # CLOUD-193
   Scenario: Check for dynamic resource allocation

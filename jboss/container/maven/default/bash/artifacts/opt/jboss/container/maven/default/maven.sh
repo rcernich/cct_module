@@ -19,7 +19,7 @@ function maven_init_vars() {
 }
 
 function maven_init_var_MAVEN_LOCAL_REPO() {
-  MAVEN_LOCAL_REPO="${MAVEN_REPO_LOCAL:-${HOME}/.m2}"
+  MAVEN_LOCAL_REPO="${MAVEN_LOCAL_REPO:-${MAVEN_REPO_LOCAL:-${HOME}/.m2/repository}}"
 }
 
 function maven_init_var_MAVEN_SETTINGS_XML() {
@@ -78,8 +78,11 @@ function maven_build() {
 function maven_cleanup() { 
   # Remove repo if desired
   if [ "x${MAVEN_CLEAR_REPO}" != "x" ]; then
+    log_info "Clearing local maven repository at ${MAVEN_LOCAL_REPO}"
     rm -rf "${MAVEN_LOCAL_REPO}"
-    check_error "Cannot remove local Maven repository ${MAVEN_LOCAL_REPO}" $?
+    if [ $? -ne 0 ]; then
+      log_error "Cannot remove local Maven repository ${MAVEN_LOCAL_REPO}"
+    fi
   fi
 }
 

@@ -1,0 +1,18 @@
+schema_version: 1
+name: jboss.container.eap.s2i.bash
+version: '1.0'
+description: Customization of common Maven S2I for EAP S2I images.
+
+envs:
+- name: JBOSS_CONTAINER_EAP_S2I_MODULE
+  value: /opt/jboss/container/eap/s2i
+- name: MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES
+  value: war ear rar jar
+
+execute:
+- script: configure.sh
+
+modules:
+  install:
+  - name: jboss.container.maven.s2i.bash
+  - name: jboss.container.util.logging.bash
