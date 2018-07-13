@@ -11,6 +11,6 @@ fi
 
 LAUNCH_DIR=${LAUNCH_DIR:-$BIN_HOME/bin/launch}
 
-mkdir -p ${LAUNCH_DIR}
+mkdir -pm 775 ${LAUNCH_DIR}
 ln -s /opt/jboss/container/util/logging/logging.sh ${LAUNCH_DIR}/logging.sh
 

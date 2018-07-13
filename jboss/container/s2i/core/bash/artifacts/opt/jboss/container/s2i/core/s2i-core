@@ -21,7 +21,7 @@ function s2i_core_pre_init_hook() {
 }
 
 function s2i_core_copy_configuration() {
-  if [ -d "${1}/${S2I_TARGET_CONFIGURATION_DIR}" ]; then
+  if [ -d "${1}/${S2I_SOURCE_CONFIGURATION_DIR}" ]; then
     if [ -z "${S2I_TARGET_CONFIGURATION_DIR}" ]; then
       log_warning "Unable to copy configuration files.  No target directory specified for S2I_TARGET_CONFIGURATION_DIR"
     else
