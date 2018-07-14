@@ -31,7 +31,7 @@ The following environment variables will be configured on the image:
 |=======================================================================
 |Name |Value
 |JBOSS_CONTAINER_EAP_S2I_MODULE |/opt/jboss/container/eap/s2i
-|MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES |war ear rar jar
+|S2I_SOURCE_DEPLOYMENTS_FILTER |*.war *.ear *.rar *.jar
 |=======================================================================
 
 == Resources

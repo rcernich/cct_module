@@ -6,8 +6,8 @@ description: Customization of common Maven S2I for JWS S2I images.
 envs:
 - name: JBOSS_CONTAINER_JWS_S2I_MODULE
   value: /opt/jboss/container/jws/s2i
-- name: MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES
-  value: war
+- name: S2I_SOURCE_DEPLOYMENTS_FILTER
+  value: "*.war"
 
 execute:
 - script: configure.sh

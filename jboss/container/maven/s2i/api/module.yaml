@@ -10,17 +10,11 @@ envs:
     be copied to $DEPLOY_DIR.  Defaults to **target**
   example: target
 
-- name: MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES
-  description: >
-    List of file extensions used by scanner when copying build output to
-    deployment directory.  Defaults to **jar**
-  example: jar war ear
-
 - name: MAVEN_S2I_GOALS
   description: >
     Space separated list of goals to be executed with maven build, e.g.
     mvn $MAVEN_S2I_GOALS.  Defaults to **package**
-  example: jar war ear
+  example: package install
 
 # Deprecated environment variables
 - name: ARTIFACT_DIR

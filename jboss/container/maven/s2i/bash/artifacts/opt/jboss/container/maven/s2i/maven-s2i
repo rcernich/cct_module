@@ -8,8 +8,8 @@ function maven_s2i_init() {
   s2i_core_init
 
   # initialize maven s2i environment variables
-  MAVEN_S2I_ARTIFACT_DIRS="${MAVEN_S2I_ARTIFACT_DIRS:-${ARTIFACT_DIR:-target}}"
-  MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES="${MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES:-jar}"
+  # use - instead of :- to allow empty artifact dir setting for access to maven_s2i_custom_binary_build
+  MAVEN_S2I_ARTIFACT_DIRS="${MAVEN_S2I_ARTIFACT_DIRS-${ARTIFACT_DIR-target}}"
   MAVEN_S2I_GOALS="${MAVEN_S2I_GOALS:-package}"
 
   # Internal variables:
@@ -59,7 +59,7 @@ function maven_s2i_build() {
 
 function maven_s2i_maven_build() { 
   maven_build "${S2I_SOURCE_DIR}" "${MAVEN_S2I_GOALS}"
-  maven_s2i_deploy_artifacts "${S2I_SOURCE_DIR}" "${MAVEN_S2I_ARTIFACT_DIRS}" "${MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES}"
+  maven_s2i_deploy_artifacts
   maven_cleanup
 }
 
@@ -69,47 +69,29 @@ function maven_s2i_deploy_artifacts() {
     return $?
   fi
 
-  local source_dir=$1
-  local artifact_dirs=$2
-  shift
-  shift
-  local types=$@
+  local artifact_dirs=${1:-${MAVEN_S2I_ARTIFACT_DIRS}}
 
-  if [[ ! "${source_dir}" =~ ^\/ ]]; then
+  if [[ ! "${S2I_SOURCE_DIR}" =~ ^\/ ]]; then
     log_error "$FUNCNAME: Absolute path required for source directory \"$source_dir\"!"
     exit 1
   fi
 
-  IFS=',' read -a artifact_dirs <<< "${artifact_dirs}"
-  for artifact_dir in "${artifact_dirs[@]}"
-  do
-      if [[ "${artifact_dir}" =~ ^\/ ]]; then
-        log_warning "Absolute path found in MAVEN_S2I_ARTIFACT_DIRS: ${artifact_dir}"
-        maven_s2i_deploy_artifacts_from_dir "${artifact_dir}" $types
-      else
-        maven_s2i_deploy_artifacts_from_dir "${source_dir}/${artifact_dir}" $types
-      fi
-  done
-}
-
-function maven_s2i_deploy_artifacts_from_dir() {
-  local source_dir=$1
-  shift
-  local types=$@
-  
-  if [[ ! "${source_dir}" =~ ^\/ ]]; then
-    log_error "${FUNCNAME}: Absolute path required for source directory \"${source_dir}\"!"
-    return 1
-  elif [ ! -d "${source_dir}" ]; then
-    log_warning "${FUNCNAME}: Specified source directory \"${source_dir}\" does not exist.  No artifacts copied."
-    return 0
-  fi
-
-  for type in $types
-  do
-    log_info "Copying all *.${type} artifacts from ${source_dir} into ${S2I_TARGET_DEPLOYMENTS_DIR} for later deployment..."
-    find "${source_dir}/" -maxdepth 1 -name "*.${type}" | xargs -I '{}' -r cp -fv '{}' "${S2I_TARGET_DEPLOYMENTS_DIR}" 2> /dev/null
-  done
+  IFS=',' read -a artifact_dirs <<< "${artifact_dirs:-target}"
+  (
+    for artifact_dir in "${artifact_dirs[@]}"
+    do
+        if [[ "${artifact_dir}" =~ ^\/ ]]; then
+          log_warning "Absolute path found in MAVEN_S2I_ARTIFACT_DIRS: ${artifact_dir}"
+          # temporarily override source dir so it copies from the dir we pass in
+          S2I_SOURCE_DEPLOYMENTS_DIR=.
+          s2i_core_copy_deployments "${artifact_dir}"
+        else
+          # temporarily override source dir so it copies from the dir we pass in
+          S2I_SOURCE_DEPLOYMENTS_DIR=${artifact_dir}
+          s2i_core_copy_deployments "${S2I_SOURCE_DIR}"
+        fi
+    done
+  )
 }
 
 function maven_s2i_binary_build() {
@@ -119,7 +101,7 @@ function maven_s2i_binary_build() {
       maven_s2i_custom_binary_build
     fi
   else
-    maven_s2i_deploy_artifacts "${S2I_SOURCE_DIR}" "." "${MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES}"
+    maven_s2i_deploy_artifacts "."
   fi
 }
 

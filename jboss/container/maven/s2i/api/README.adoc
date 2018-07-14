@@ -33,10 +33,8 @@ The following environment variables are used to configure the functionality prov
 |DEPLOYMENTS_DIR |Deprecated by **S2I_TARGET_DEPLOYMENTS_DIR**. |
 |MAVEN_S2I_ARTIFACT_DIRS |Relative paths of source directories to scan for build output, which will be copied to $DEPLOY_DIR.  Defaults to **target**
  |target
-|MAVEN_S2I_DEPLOYMENT_ARTIFACT_TYPES |List of file extensions used by scanner when copying build output to deployment directory.  Defaults to **jar**
- |jar war ear
 |MAVEN_S2I_GOALS |Space separated list of goals to be executed with maven build, e.g. mvn $MAVEN_S2I_GOALS.  Defaults to **package**
- |jar war ear
+ |package install
 |=======================================================================
 
 The following environment variables will be configured on the image:

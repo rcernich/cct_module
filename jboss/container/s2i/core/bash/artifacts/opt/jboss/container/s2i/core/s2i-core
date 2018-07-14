@@ -59,8 +59,11 @@ function s2i_core_copy_deployments() {
         log_info "S2I_TARGET_DEPLOYMENTS_DIR does not exist, creating ${S2I_TARGET_DEPLOYMENTS_DIR}"
         mkdir -pm 775 "${S2I_TARGET_DEPLOYMENTS_DIR}"
       fi
-      log_info "Copying deployments from $(realpath --relative-to ${S2I_SOURCE_DIR} ${1}/${S2I_SOURCE_DEPLOYMENTS_DIR}) to ${S2I_TARGET_DEPLOYMENTS_DIR}..."
-      rsync -rl --out-format='%n' "${1}/${S2I_SOURCE_DEPLOYMENTS_DIR}"/ "${S2I_TARGET_DEPLOYMENTS_DIR}"
+      local relative_source=$(realpath --relative-to "${S2I_SOURCE_DIR}" "${1}/${S2I_SOURCE_DEPLOYMENTS_DIR}")
+      log_info "Copying deployments from $relative_source to ${S2I_TARGET_DEPLOYMENTS_DIR}..."
+      for filter in ${S2I_SOURCE_DEPLOYMENTS_FILTER:-*}; do
+        find "${S2I_SOURCE_DIR}/${relative_source}/" -maxdepth 1 -name "${filter}" | xargs -I '{}' -r cp -Lrv '{}' "${S2I_TARGET_DEPLOYMENTS_DIR}"
+      done
     fi
   fi 
 }

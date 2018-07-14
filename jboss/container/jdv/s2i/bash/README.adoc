@@ -6,12 +6,12 @@
 
 
 
-= link:./module.yaml[jboss.container.jws.s2i.bash]
+= link:./module.yaml[jboss.container.jdv.s2i.bash]
 :toc:
 :toc-placement!:
 :toclevels: 5
 
-Customization of common Maven S2I for JWS S2I images.
+Customization of common Maven S2I for JDV S2I images.
 
 toc::[]
 
@@ -25,13 +25,15 @@ The following environment variables are used to configure the functionality prov
 
 |=======================================================================
 |Name |Description |Example
+|JDV_S2I_SOURCE_VDB_DIRS |^ Comma separated list of relative paths to directory containing vdb files to be copied over to the product deployment directory, see **S2I_TARGET_DEPLOYMENTS_DIR**.  Defaults to **.**. |src/vdbs
 |=======================================================================
 
 The following environment variables will be configured on the image:
 |=======================================================================
 |Name |Value
-|JBOSS_CONTAINER_JWS_S2I_MODULE |/opt/jboss/container/jws/s2i
-|S2I_SOURCE_DEPLOYMENTS_FILTER |*.war
+|JBOSS_CONTAINER_JDV_S2I_MODULE |/opt/jboss/container/jdv/s2i
+|JDV_S2I_SOURCE_VDB_DIRS |.
+|S2I_SOURCE_DEPLOYMENTS_FILTER |*.war *.ear *.rar *.jar *-vdb.xml *-vdb.xml.dodeploy *.vdb *.vdb.dodeploy
 |=======================================================================
 
 == Resources
@@ -51,7 +53,7 @@ No additional RPM package repositories are required to install listed RPMs.
 
 The following modules will be installed with this module:
 
-link:../../../../../jboss/container/maven/s2i/bash/README.adoc[jboss.container.maven.s2i.bash]
+link:../../../../../jboss/container/eap/s2i/bash/README.adoc[jboss.container.eap.s2i.bash]
 
 link:../../../../../jboss/container/util/logging/bash/README.adoc[jboss.container.util.logging.bash]
 

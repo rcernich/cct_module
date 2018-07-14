@@ -38,12 +38,24 @@ envs:
     **S2I_TARGET_CONFIGURATION_DIR**.  Defaults to **configuration**.
   example: configuration
 
+- name: S2I_TARGET_CONFIGURATION_DIR
+  description: ^
+    Absolute path to which files located in
+    $S2I_SOURCE_DIR/$S2I_SOURCE_CONFIGURATION_DIR are copied.
+  example: /opt/eap/standalone/configuration
+
 - name: S2I_SOURCE_DATA_DIR
   description: ^
     Relative path to directory containing application data files to be copied
     over to the product data directory, see **S2I_TARGET_DATA_DIR**.  Defaults
     to **data**.
   example: data
+
+- name: S2I_TARGET_DATA_DIR
+  description: ^
+    Absolute path to which files located in
+    $S2I_SOURCE_DIR/$S2I_SOURCE_DATA_DIR are copied.
+  example: /opt/eap/standalone/data
 
 - name: S2I_SOURCE_DEPLOYMENTS_DIR
   description: ^
@@ -52,17 +64,12 @@ envs:
     to **deployments**.
   example: deployments
 
-- name: S2I_TARGET_CONFIGURATION_DIR
-  description: ^
-    Absolute path to which files located in
-    $S2I_SOURCE_DIR/$S2I_SOURCE_CONFIGURATION_DIR are copied.
-  example: /opt/eap/standalone/configuration
-
-- name: S2I_TARGET_DATA_DIR
-  description: ^
-    Absolute path to which files located in
-    $S2I_SOURCE_DIR/$S2I_SOURCE_DATA_DIR are copied.
-  example: /opt/eap/standalone/data
+- name: S2I_SOURCE_DEPLOYMENTS_FILTER
+  description: >
+    Space separated list of filters to be applied when copying deployments.
+    Defaults to ** * **
+  value: "*"
+  example: "*.jar *.war *.ear"
 
 - name: S2I_TARGET_DEPLOYMENTS_DIR
   description: ^

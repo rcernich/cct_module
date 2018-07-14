@@ -37,6 +37,8 @@ The following environment variables are used to configure the functionality prov
 |S2I_SOURCE_CONFIGURATION_DIR |^ Relative path to directory containing application configuration files to be copied over to the product configuration directory, see **S2I_TARGET_CONFIGURATION_DIR**.  Defaults to **configuration**. |configuration
 |S2I_SOURCE_DATA_DIR |^ Relative path to directory containing application data files to be copied over to the product data directory, see **S2I_TARGET_DATA_DIR**.  Defaults to **data**. |data
 |S2I_SOURCE_DEPLOYMENTS_DIR |^ Relative path to directory containing binary files to be copied over to the product deployment directory, see **S2I_TARGET_DEPLOYMENTS_DIR**.  Defaults to **deployments**. |deployments
+|S2I_SOURCE_DEPLOYMENTS_FILTER |Space separated list of filters to be applied when copying deployments. Defaults to ** * **
+ |*.jar *.war *.ear
 |S2I_SOURCE_DIR |^ Location of mount for source code to be built.  This should not be overridden by end users. |${S2I_DESTINATION_DIR}/src}
 |S2I_TARGET_CONFIGURATION_DIR |^ Absolute path to which files located in $S2I_SOURCE_DIR/$S2I_SOURCE_CONFIGURATION_DIR are copied. |/opt/eap/standalone/configuration
 |S2I_TARGET_DATA_DIR |^ Absolute path to which files located in $S2I_SOURCE_DIR/$S2I_SOURCE_DATA_DIR are copied. |/opt/eap/standalone/data
@@ -46,6 +48,7 @@ The following environment variables are used to configure the functionality prov
 The following environment variables will be configured on the image:
 |=======================================================================
 |Name |Value
+|S2I_SOURCE_DEPLOYMENTS_FILTER |*
 |=======================================================================
 
 == Resources
