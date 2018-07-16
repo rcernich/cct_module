@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
+
+if [ "${SCRIPT_DEBUG}" = "true" ] ; then
+    set -x
+    log_info "Script debugging is enabled, allowing bash commands and their arguments to be printed as they are executed"
+fi
+
+source "${JBOSS_CONTAINER_S2I_CORE_MODULE}/s2i-core"
+source "${JBOSS_CONTAINER_AMQ_S2I_MODULE}/s2i-core-hooks"
+
+s2i_core_init
+s2i_core_copy_artifacts "${S2I_SOURCE_DIR}"
+s2i_core_process_image_mounts
