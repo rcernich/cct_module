@@ -23,4 +23,9 @@ function log_info() {
   echo >&2 -e "INFO ${message}"
 }
 
+if [ "${LOGGING_SCRIPT_DEBUG:-${SCRIPT_DEBUG}}" = "true" ] ; then
+    set -x
+    log_info "Script debugging is enabled, allowing bash commands and their arguments to be printed as they are executed"
+fi
+
 fi
