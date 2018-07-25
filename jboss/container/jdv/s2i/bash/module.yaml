@@ -10,7 +10,7 @@ envs:
   value: "*.war *.ear *.rar *.jar *-vdb.xml *-vdb.xml.dodeploy *.vdb *.vdb.dodeploy"
 - name: JDV_S2I_SOURCE_VDB_DIRS
   description: ^
-    Comma separated list of relative paths to directory containing vdb files to
+    Comma separated list of relative paths to directories containing vdb files to
     be copied over to the product deployment directory, see
     **S2I_TARGET_DEPLOYMENTS_DIR**.  Defaults to **.**.
   value: .

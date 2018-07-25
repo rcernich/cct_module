@@ -1,6 +1,10 @@
 
 source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
 
+# Override initialization of configuration source: legacy SRCCONF env
+# Override target configuration directory
+# Override target deployments directory
+# Override target data directory
 function s2i_core_pre_init_hook() {
   S2I_SOURCE_CONFIGURATION_DIR="${S2I_SOURCE_CONFIGURATION_DIR:-${SRCCONF:-configuration}}"
   S2I_TARGET_CONFIGURATION_DIR="${S2I_TARGET_CONFIGURATION_DIR:-${AMQ_HOME}/conf}"

@@ -1,7 +1,10 @@
 schema_version: 1
 name: jboss.container.java.jvm.api
 version: '1.0'
-description: "Defines environment variables used for configuring Java JVM, e.g. GC settings, etc."
+description: ^
+  Defines environment variables used for configuring Java JVM, e.g. GC settings,
+  etc.  Modules providing support for configuring JVM settings should use the
+  variables listed within this module to configure the JVM appropriately.
 
 envs:
 - name: JAVA_OPTS

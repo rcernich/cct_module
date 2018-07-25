@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Defines environment variables and labels used by s2i.
+^ Defines environment variables and labels used by S2I.  Modules implementing S2I capabilities should use these variables accordingly.
 
 toc::[]
 

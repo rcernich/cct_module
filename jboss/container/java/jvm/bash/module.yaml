@@ -1,7 +1,9 @@
 schema_version: 1
 name: jboss.container.java.jvm.bash
 version: '1.0'
-description: "Provides support for configuring Java JVM, e.g. GC settings, etc."
+description: ^
+  Provides support for configuring Java JVM, e.g. GC settings, etc.  Basic usage
+  is opts=$($JBOSS_CONTAINER_JAVA_JVM_MODULE/java-default-options)
 
 envs:
 - name: JBOSS_CONTAINER_JAVA_JVM_MODULE

@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Provides support for configuring Jolokia.
+^ Provides support for configuring Jolokia.  Basic usage is opts="$JBOSS_CONTAINER_JOLOKIA_MODULE/jolokia-opts"
 
 toc::[]
 

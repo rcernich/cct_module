@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Defines environment variables and labels used by Maven s2i.
+^ Defines environment variables and labels used by Maven s2i.  Modules implementing Maven S2I should use these variables accordingly.
 
 toc::[]
 

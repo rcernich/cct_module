@@ -1,6 +1,7 @@
 # include dependencies
 source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
 
+# initializes the environment used by common s2i_core_*() functions
 function s2i_core_init() {
   # initialize core s2i environmet variables
   s2i_core_pre_init_hook
@@ -16,10 +17,14 @@ function s2i_core_init() {
   S2I_IMAGE_SOURCE_MOUNTS="${S2I_IMAGE_SOURCE_MOUNTS:-${CUSTOM_INSTALL_DIRECTORIES}}"
 }
 
+# extensions may override this method to initialize environment variables
+# to suit their own needs.
 function s2i_core_pre_init_hook() {
   : 
 }
 
+# copy configuration files
+# $1 - the base directory to which $S2I_SOURCE_CONFIGURATION_DIR is appended
 function s2i_core_copy_configuration() {
   if [ -d "${1}/${S2I_SOURCE_CONFIGURATION_DIR}" ]; then
     if [ -z "${S2I_TARGET_CONFIGURATION_DIR}" ]; then
@@ -35,6 +40,8 @@ function s2i_core_copy_configuration() {
   fi 
 }
 
+# copy data files
+# $1 - the base directory to which $S2I_SOURCE_DATA_DIR is appended
 function s2i_core_copy_data() {
   if [ -d "${1}/${S2I_SOURCE_DATA_DIR}" ]; then
     if [ -z "${S2I_TARGET_DATA_DIR}" ]; then
@@ -50,6 +57,8 @@ function s2i_core_copy_data() {
   fi 
 }
 
+# copy deployment (binary) files
+# $1 - the base directory to which $S2I_SOURCE_DEPLOYMENTS_DIR is appended
 function s2i_core_copy_deployments() {
   if [ -d "${1}/${S2I_SOURCE_DEPLOYMENTS_DIR}" ]; then
     if [ -z "${S2I_TARGET_DEPLOYMENTS_DIR}" ]; then
@@ -68,10 +77,14 @@ function s2i_core_copy_deployments() {
   fi 
 }
 
+# extension may override this method to provide additional copy functions
+# $1 - the base directory
 function s2i_core_copy_artifacts_hook() {
   :
 }
 
+# main entry point for copying artifacts from the build to the target
+# $1 - the base directory
 function s2i_core_copy_artifacts() {
   s2i_core_copy_configuration $*
   s2i_core_copy_data $*
@@ -79,6 +92,7 @@ function s2i_core_copy_artifacts() {
   s2i_core_copy_artifacts_hook $*
 }
 
+# processes any directories mounted into the build.  see S2I_IMAGE_SOURCE_MOUNTS
 function s2i_core_process_image_mounts() {
   if [ "x${S2I_IMAGE_SOURCE_MOUNTS}" = "x" ]; then
     return 0

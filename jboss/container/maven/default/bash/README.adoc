@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Provides Maven capabilities to an image.
+^ Provides basic Maven capabilities to an image, with support for configuring settings.xml using the environment variables described in jboss.container.maven.api.
 
 toc::[]
 
@@ -50,7 +50,7 @@ No additional RPM package repositories are required to install listed RPMs.
 
 The following modules will be installed with this module:
 
-link:../../../../../jboss/container/java/base/bash/README.adoc[jboss.container.java.base.bash]
+link:../../../../../jboss/container/java/jvm/bash/README.adoc[jboss.container.java.jvm.bash]
 
 link:../../../../../jboss/container/maven/35/bash/README.adoc[jboss.container.maven.35.bash]
 

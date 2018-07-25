@@ -25,7 +25,7 @@ The following environment variables are used to configure the functionality prov
 
 |=======================================================================
 |Name |Description |Example
-|JDV_S2I_SOURCE_VDB_DIRS |^ Comma separated list of relative paths to directory containing vdb files to be copied over to the product deployment directory, see **S2I_TARGET_DEPLOYMENTS_DIR**.  Defaults to **.**. |src/vdbs
+|JDV_S2I_SOURCE_VDB_DIRS |^ Comma separated list of relative paths to directories containing vdb files to be copied over to the product deployment directory, see **S2I_TARGET_DEPLOYMENTS_DIR**.  Defaults to **.**. |src/vdbs
 |=======================================================================
 
 The following environment variables will be configured on the image:

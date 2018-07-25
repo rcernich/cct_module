@@ -2,7 +2,10 @@ schema_version: 1
 
 name: jboss.container.hawkular.api
 version: '1.0'
-description: Defines environment variables used for configuring Hawkular.
+description: ^
+  Defines environment variables used for configuring Hawkular.  Modules
+  providing support for configuring Hawkular should use the variables listed
+  within this module to configure Hawkular appropriately.
 
 envs:
 - name: AB_HAWKULAR_REST_URL

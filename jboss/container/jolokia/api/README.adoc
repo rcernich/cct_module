@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Defines environment variables used for configuring Jolokia.
+^ Defines environment variables used for configuring Jolokia.  Modules providing support for configuring Jolokia should use the variables listed within this module to configure Jolokia appropriately.
 
 toc::[]
 

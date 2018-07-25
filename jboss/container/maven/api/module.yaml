@@ -1,7 +1,10 @@
 schema_version: 1
 name: jboss.container.maven.api
 version: '1.0'
-description: Defines environment variables used for configuring Maven.
+description: ^
+  Defines environment variables used for configuring Maven.  Modules
+  providing support for configuring Maven should use the variables listed
+  within this module to configure Maven appropriately.
 
 envs:
 - name: MAVEN_ARGS

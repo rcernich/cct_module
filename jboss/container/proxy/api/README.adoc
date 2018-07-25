@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Defines environment variables used for proxy configuration.
+^ Defines environment variables used for proxy configuration.  Modules providing support for configuring proxy settings should use the variables described here accordingly.
 
 toc::[]
 

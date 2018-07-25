@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Provides support for running Java applications.
+^ Provides support for running Java applications.  Basic usage is $JBOSS_CONTAINER_JAVA_RUN_MODULE/run-java.sh.
 
 toc::[]
 
@@ -55,7 +55,7 @@ No additional RPM package repositories are required to install listed RPMs.
 
 The following modules will be installed with this module:
 
-link:../../../../../jboss/container/java/base/bash/README.adoc[jboss.container.java.base.bash]
+link:../../../../../jboss/container/java/jvm/bash/README.adoc[jboss.container.java.jvm.bash]
 
 link:../../../../../jboss/container/util/logging/bash/README.adoc[jboss.container.util.logging.bash]
 

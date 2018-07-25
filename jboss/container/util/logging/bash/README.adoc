@@ -25,6 +25,7 @@ The following environment variables are used to configure the functionality prov
 
 |=======================================================================
 |Name |Description |Example
+|LOGGING_SCRIPT_DEBUG |Set to true to enable script debugging.  Deprecates SCRIPT_DEBUG. |True
 |=======================================================================
 
 The following environment variables will be configured on the image:

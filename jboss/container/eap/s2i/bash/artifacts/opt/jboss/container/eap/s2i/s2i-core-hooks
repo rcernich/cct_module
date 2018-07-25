@@ -1,14 +1,21 @@
 
 source "${JBOSS_CONTAINER_UTIL_LOGGING_MODULE}/logging.sh"
 
+# override core variables
 function s2i_core_pre_init_hook() {
   eap_s2i_init
 }
 
+# add support for copying modules
 function s2i_core_copy_artifacts_hook() {
   eap_s2i_copy_modules $*
 }
 
+# Overrides are done in the script vs image configuration so $JBOSS_HOME can be
+#   used, simplifying configuration for layered products
+# Override target configuration directory
+# Override target data directory
+# Initialize variables for source/target directories for modules
 function eap_s2i_init() {
   S2I_TARGET_CONFIGURATION_DIR="${S2I_TARGET_CONFIGURATION_DIR:-${JBOSS_HOME}/standalone/configuration}"
   S2I_TARGET_DATA_DIR="${S2I_TARGET_DATA_DIR:-${DATA_DIR:-${JBOSS_HOME}/standalone/data}}"
@@ -17,6 +24,7 @@ function eap_s2i_init() {
   EAP_S2I_TARGET_MODULES_DIR="${EAP_S2I_TARGET_MODULES_DIR:-${JBOSS_HOME}/modules}"
 }
 
+# copy modules
 function eap_s2i_copy_modules() {
   if [ -d "${1}/${EAP_S2I_SOURCE_MODULES_DIR}" ]; then
     if [ -z "${EAP_S2I_TARGET_MODULES_DIR}" ]; then

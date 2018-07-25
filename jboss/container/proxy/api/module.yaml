@@ -2,7 +2,10 @@ schema_version: 1
 
 name: "jboss.container.proxy.api"
 version: "2.0"
-description: "Defines environment variables used for proxy configuration."
+description: ^
+  Defines environment variables used for proxy configuration.  Modules providing
+  support for configuring proxy settings should use the variables described here
+  accordingly.
 
 envs:
 - name: https_proxy

@@ -2,7 +2,9 @@ schema_version: 1
 
 name: jboss.container.hawkular.bash
 version: '1.0'
-description: Provides support for configuring Hawkular.
+description: ^
+  Provides support for configuring Hawkular.  Basic usage is
+  opts=$(source $JBOSS_CONTAINER_HAWKULAR_MODULE/hawkular-opts; get_hawkular_opts)
 
 envs:
 - name: JBOSS_CONTAINER_HAWKULAR_MODULE

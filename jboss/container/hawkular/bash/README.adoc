@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Provides support for configuring Hawkular.
+^ Provides support for configuring Hawkular.  Basic usage is opts=$(source $JBOSS_CONTAINER_HAWKULAR_MODULE/hawkular-opts; get_hawkular_opts)
 
 toc::[]
 

@@ -2,7 +2,9 @@ schema_version: 1
 
 name: jboss.container.jolokia.bash
 version: '1.0'
-description: Provides support for configuring Jolokia.
+description: ^
+  Provides support for configuring Jolokia.  Basic usage is
+  opts="$JBOSS_CONTAINER_JOLOKIA_MODULE/jolokia-opts"
 
 labels:
 - name: io.fabric8.s2i.version.jolokia

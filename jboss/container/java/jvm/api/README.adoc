@@ -11,7 +11,7 @@
 :toc-placement!:
 :toclevels: 5
 
-Defines environment variables used for configuring Java JVM, e.g. GC settings, etc.
+^ Defines environment variables used for configuring Java JVM, e.g. GC settings, etc.  Modules providing support for configuring JVM settings should use the variables listed within this module to configure the JVM appropriately.
 
 toc::[]
 
